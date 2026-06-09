@@ -2,6 +2,13 @@
 -- articles without redeploying the site. The website reads only PUBLISHED rows;
 -- the autopilot inserts/updates rows using the service-role key (bypasses RLS).
 
+-- Shared updated_at trigger helper (created here so this migration is
+-- self-contained on projects where the earlier app-schema migration never ran).
+CREATE OR REPLACE FUNCTION public.set_updated_at()
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY INVOKER SET search_path = public AS $$
+BEGIN NEW.updated_at = now(); RETURN NEW; END;
+$$;
+
 CREATE TABLE public.blog_posts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   slug TEXT NOT NULL UNIQUE,
@@ -25,7 +32,6 @@ CREATE INDEX blog_posts_published_idx
   WHERE status = 'published';
 CREATE INDEX blog_posts_status_idx ON public.blog_posts (status);
 
--- Reuse the shared updated_at trigger created in the earlier migration.
 CREATE TRIGGER trg_blog_posts_updated BEFORE UPDATE ON public.blog_posts
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
