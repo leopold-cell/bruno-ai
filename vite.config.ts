@@ -7,6 +7,10 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Force Nitro ON with the package default (cloudflare-module preset) so the
+  // SSR server bundle is always built — our server functions (waitlist, blog,
+  // admin) require it. This scaffold deploys cleanly to Cloudflare Pages/Workers.
+  nitro: true,
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
