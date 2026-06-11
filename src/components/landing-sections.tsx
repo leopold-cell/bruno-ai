@@ -418,7 +418,7 @@ export function MerchShowcase() {
   const items: { name: string; tag: string; img: string }[] = [
     { name: "“Bruno” heavyweight hoodie", tag: "Apparel", img: "/merch/hoodie.jpg" },
     { name: "“You are not your thoughts” tote", tag: "Carry", img: "/merch/tote.jpg" },
-    { name: "Affirmation card set", tag: "Paper", img: "/merch/cards.jpg" },
+    { name: "Affirmation sticker pack", tag: "Stickers", img: "/merch/cards.jpg" },
     { name: "“Breathe” soy candle", tag: "Home", img: "/merch/tin.jpg" },
   ];
   return (
