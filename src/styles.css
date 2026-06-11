@@ -152,12 +152,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Smooth in-page scrolling; keep anchored sections clear of the sticky header. */
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
+    /* Guard against any element forcing horizontal scroll on mobile. */
+    overflow-x: hidden;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);

@@ -322,7 +322,7 @@ export function HowItHelps() {
     },
   ];
   return (
-    <section id="how-it-helps" className="py-20 sm:py-28">
+    <section id="how-it-helps" className="scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage-deep">Meet Bruno</p>
         <h2 className="mt-3 max-w-3xl font-display text-3xl font-semibold text-balance sm:text-5xl">

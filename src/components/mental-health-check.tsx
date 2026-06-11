@@ -178,7 +178,7 @@ export function MentalHealthCheck() {
   }
 
   return (
-    <div id="check" className="relative">
+    <div id="check" className="relative scroll-mt-24">
       <div className="mx-auto max-w-2xl">
         <div className="rounded-3xl border border-border bg-card p-6 shadow-[0_2px_30px_-12px_rgba(40,60,50,0.18)] sm:p-10">
           {phase === "intro" && (

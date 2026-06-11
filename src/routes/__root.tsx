@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -90,9 +91,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@bruno_ai" },
       { property: "og:title", content: "Bruno — A pocket CBT coach for the moments therapy can't reach" },
       { name: "twitter:title", content: "Bruno — A pocket CBT coach for the moments therapy can't reach" },
-      { name: "description", content: "Mindful AI offers a mental health check and AI-powered support to improve well-being." },
-      { property: "og:description", content: "Mindful AI offers a mental health check and AI-powered support to improve well-being." },
-      { name: "twitter:description", content: "Mindful AI offers a mental health check and AI-powered support to improve well-being." },
+      { property: "og:description", content: "A pocket CBT coach for anxiety, overthinking, low mood, and sleepless nights — free for 6 months at launch." },
+      { name: "twitter:description", content: "A pocket CBT coach for anxiety, overthinking, low mood, and sleepless nights — free for 6 months at launch." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8c80ddf6-a5ca-4027-8267-3c9aac57d88a/id-preview-0d964408--89da574b-5600-4fe7-b9ef-d9ce61d8622f.lovable.app-1780665414815.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8c80ddf6-a5ca-4027-8267-3c9aac57d88a/id-preview-0d964408--89da574b-5600-4fe7-b9ef-d9ce61d8622f.lovable.app-1780665414815.png" },
     ],
@@ -136,6 +136,20 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Reliable in-page scrolling for hash links (e.g. "#check"), including
+  // same-route clicks. scroll-margin-top on the targets keeps them clear of the
+  // sticky header.
+  const hash = useRouterState({ select: (s) => s.location.hash });
+  useEffect(() => {
+    if (!hash) return;
+    const el = document.getElementById(hash.replace(/^#/, ""));
+    if (el) {
+      requestAnimationFrame(() =>
+        el.scrollIntoView({ behavior: "smooth", block: "start" }),
+      );
+    }
+  }, [hash]);
 
   return (
     <QueryClientProvider client={queryClient}>
