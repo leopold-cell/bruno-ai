@@ -25,11 +25,16 @@ export const joinWaitlist = createServerFn({ method: "POST" })
     if (error) {
       // Treat duplicate email as a soft-success so we don't leak who's on the list
       if (error.code === "23505") {
+        const { addToMailerLite } = await import("./mailerlite.server");
+        await addToMailerLite(data.name, data.email);
         return { ok: true, alreadyOnList: true as const };
       }
       console.error("[waitlist] insert failed", error);
       throw new Error("We couldn't save your sign-up. Please try again.");
     }
+
+    const { addToMailerLite } = await import("./mailerlite.server");
+    await addToMailerLite(data.name, data.email);
 
     return { ok: true, alreadyOnList: false as const };
   });
