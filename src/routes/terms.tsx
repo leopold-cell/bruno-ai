@@ -25,7 +25,7 @@ function TermsPage() {
         <div className="mt-8 space-y-5 text-pretty text-lg text-muted-foreground">
           <p>This page is a placeholder while we prepare our full terms of service.</p>
           <p>The short version: Bruno is a self-help tool, not a medical service. It does not diagnose, treat, or cure any condition. If you are in crisis, please contact a licensed professional. In the US: call or text 988.</p>
-          <p>Questions? Email <a className="underline" href="mailto:hello@bruno.ai">hello@bruno.ai</a>.</p>
+          <p>Questions? Email <a className="underline" href="mailto:hi@brunomind.com">hi@brunomind.com</a>.</p>
         </div>
       </main>
       <SiteFooter />

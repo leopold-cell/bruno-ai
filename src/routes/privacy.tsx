@@ -30,7 +30,7 @@ function PrivacyPage() {
             <li>We never use your private conversations to train third-party AI models.</li>
             <li>You can export or delete everything you've ever shared with one tap.</li>
           </ul>
-          <p>Questions? Email <a className="underline" href="mailto:hello@bruno.ai">hello@bruno.ai</a>.</p>
+          <p>Questions? Email <a className="underline" href="mailto:hi@brunomind.com">hi@brunomind.com</a>.</p>
         </div>
       </main>
       <SiteFooter />

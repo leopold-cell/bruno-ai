@@ -28,7 +28,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2 text-sm">
             <li><Link to="/privacy" className="text-muted-foreground hover:text-foreground">Privacy</Link></li>
             <li><Link to="/terms" className="text-muted-foreground hover:text-foreground">Terms</Link></li>
-            <li><a href="mailto:hello@bruno.ai" className="text-muted-foreground hover:text-foreground">Contact</a></li>
+            <li><a href="mailto:hi@brunomind.com" className="text-muted-foreground hover:text-foreground">Contact</a></li>
           </ul>
         </div>
       </div>
