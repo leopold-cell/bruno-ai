@@ -415,12 +415,11 @@ export function FoundingPerks() {
 }
 
 export function MerchShowcase() {
-  const items: { name: string; tag: string; mockup: React.ReactNode; bg: string }[] = [
-    { name: "\"Mind Reset\" oversized hoodie", tag: "Apparel", bg: "bg-mist", mockup: <HoodieMockup /> },
-    { name: "Breathing-pattern enamel pin", tag: "Accessory", bg: "bg-cream", mockup: <PinMockup /> },
-    { name: "\"You are not your thoughts\" tote", tag: "Carry", bg: "bg-mist", mockup: <ToteMockup /> },
-    { name: "Guided CBT journal", tag: "Paper", bg: "bg-cream", mockup: <JournalMockup /> },
-    { name: "Calming sticker pack", tag: "Stickers", bg: "bg-mist", mockup: <StickersMockup /> },
+  const items: { name: string; tag: string; img: string }[] = [
+    { name: "“Bruno” heavyweight hoodie", tag: "Apparel", img: "/merch/hoodie.jpg" },
+    { name: "“You are not your thoughts” tote", tag: "Carry", img: "/merch/tote.jpg" },
+    { name: "Affirmation card set", tag: "Paper", img: "/merch/cards.jpg" },
+    { name: "“Breathe” soy candle", tag: "Home", img: "/merch/tin.jpg" },
   ];
   return (
     <section className="bg-cream py-20 sm:py-28">
@@ -432,14 +431,21 @@ export function MerchShowcase() {
         <p className="mt-5 max-w-2xl text-pretty text-lg text-muted-foreground">
           Every month we send a few founding members a piece of Bruno merch — designed to look like something you'd actually wear or use, not therapy-app swag.
         </p>
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item, i) => (
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {items.map((item) => (
             <div
               key={item.name}
-              className={`group relative overflow-hidden rounded-3xl border border-border ${item.bg} p-6 ${i === 0 ? "sm:col-span-2 sm:row-span-1" : ""}`}
+              className="group overflow-hidden rounded-3xl border border-border bg-card"
             >
-              <div className="aspect-[4/3] w-full">{item.mockup}</div>
-              <div className="mt-5 flex items-end justify-between">
+              <div className="aspect-[3/2] w-full overflow-hidden">
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="flex items-end justify-between p-5">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-wider text-sage-deep">{item.tag}</p>
                   <h3 className="mt-1 font-display text-lg font-semibold">{item.name}</h3>
