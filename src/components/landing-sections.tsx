@@ -1,6 +1,31 @@
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { MentalHealthCheck } from "./mental-health-check";
 import { BrunoMark } from "./site-header";
+
+// Rotating "struggle" word in the hero headline — cycles every ~1s.
+const STRUGGLES = ["anxiety", "sleepless nights", "low energy", "overthinking", "a racing mind", "low mood"];
+const TICKER_MS = 1500;
+
+function StruggleTicker() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((prev) => (prev + 1) % STRUGGLES.length), TICKER_MS);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="whitespace-nowrap text-primary">
+      &ldquo;
+      <span
+        key={i}
+        className="inline-block animate-in fade-in slide-in-from-bottom-2 duration-300"
+      >
+        {STRUGGLES[i]}
+      </span>
+      &rdquo;
+    </span>
+  );
+}
 
 export function Hero() {
   return (
@@ -16,7 +41,7 @@ export function Hero() {
             Only 1,000 founding-member spots — going fast
           </div>
           <h1 className="mt-5 font-display text-[2.5rem] font-semibold leading-[1.05] tracking-tight text-balance text-ink sm:text-6xl lg:text-[4.25rem]">
-            If your mind won't shut up tonight — read this before you open another tab.
+            If you're struggling with <StruggleTicker /> — read this before you open another tab.
           </h1>
           <p className="mt-6 max-w-xl text-pretty text-lg text-muted-foreground sm:text-xl">
             You already know what you want: the noise to stop, your chest to loosen, sleep that actually comes. You've tried the breathing videos, the journals, the &ldquo;just don't think about it.&rdquo; None of it talks back at 2:47am. Bruno does — with the exact protocol therapists use to break the loop, one tap away, for the next six months free.
