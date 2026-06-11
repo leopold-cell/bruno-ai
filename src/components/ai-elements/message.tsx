@@ -12,10 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { cjk } from "@streamdown/cjk";
-import { code } from "@streamdown/code";
-import { math } from "@streamdown/math";
-import { mermaid } from "@streamdown/mermaid";
+import { marked } from "marked";
 import type { UIMessage } from "ai";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import type { ComponentProps, HTMLAttributes, ReactElement } from "react";
@@ -28,7 +25,6 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Streamdown } from "streamdown";
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage["role"];
@@ -319,21 +315,31 @@ export const MessageBranchPage = ({
   );
 };
 
-export type MessageResponseProps = ComponentProps<typeof Streamdown>;
+export type MessageResponseProps = HTMLAttributes<HTMLDivElement> & {
+  children?: string;
+  isAnimating?: boolean;
+};
 
-const streamdownPlugins = { cjk, code, math, mermaid };
-
+// Lightweight markdown rendering (replaces Streamdown + Shiki/Mermaid/KaTeX to
+// keep the Worker bundle small). Content is the assistant's own output, rendered
+// only in the signed-in user's own session.
 export const MessageResponse = memo(
-  ({ className, ...props }: MessageResponseProps) => (
-    <Streamdown
-      className={cn(
-        "size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
-        className
-      )}
-      plugins={streamdownPlugins}
-      {...props}
-    />
-  ),
+  ({ className, children, isAnimating: _isAnimating, ...props }: MessageResponseProps) => {
+    const html = useMemo(
+      () => marked.parse(String(children ?? ""), { async: false, breaks: true }) as string,
+      [children]
+    );
+    return (
+      <div
+        className={cn(
+          "prose prose-sm max-w-none dark:prose-invert size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
+          className
+        )}
+        dangerouslySetInnerHTML={{ __html: html }}
+        {...props}
+      />
+    );
+  },
   (prevProps, nextProps) =>
     prevProps.children === nextProps.children &&
     nextProps.isAnimating === prevProps.isAnimating
