@@ -14,15 +14,13 @@ function StruggleTicker() {
     return () => clearInterval(id);
   }, []);
   return (
-    <span className="my-1 block whitespace-nowrap text-[2rem] leading-[1.1] text-primary sm:text-6xl lg:text-[4.25rem]">
-      &ldquo;
+    <span className="my-1 block whitespace-nowrap leading-[1.1] text-primary">
       <span
         key={i}
         className="inline-block animate-in fade-in slide-in-from-bottom-2 duration-300"
       >
         {STRUGGLES[i]}
       </span>
-      &rdquo;
     </span>
   );
 }
