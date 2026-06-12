@@ -123,7 +123,7 @@ function AuthPage() {
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
             {mode === "signin" && "Sign in to keep going with Bruno."}
-            {mode === "signup" && "Founding members only — make sure your email is on the waitlist."}
+            {mode === "signup" && "Waitlist members only — make sure your email is on the waitlist."}
             {mode === "reset" && "We'll email you a reset link."}
           </p>
 

@@ -6,9 +6,11 @@ import { getWaitlistCount } from "@/lib/waitlist.functions";
 
 const LAUNCH_DATE = new Date("2026-09-15T09:00:00Z").getTime();
 const TOTAL_SPOTS = 1000;
+// Head-start added to the real signup count for social proof.
+const BASELINE = 100;
 
-// Live, real count of people on the waitlist (from Supabase). null while loading.
-function useClaimed(): number | null {
+// Real count of people on the waitlist (from Supabase) + baseline. null while loading.
+function useMembers(): number | null {
   const fetchCount = useServerFn(getWaitlistCount);
   const { data } = useQuery({
     queryKey: ["waitlist-count"],
@@ -16,7 +18,7 @@ function useClaimed(): number | null {
     staleTime: 60_000,
     refetchInterval: 60_000,
   });
-  return data?.count ?? null;
+  return data ? data.count + BASELINE : null;
 }
 
 function useNow(intervalMs = 1000) {
@@ -42,16 +44,15 @@ function formatDelta(ms: number) {
 
 export function UrgencyTicker() {
   const now = useNow(1000);
-  const claimedReal = useClaimed();
+  const members = useMembers();
   const ready = now !== null;
   const t = now ?? LAUNCH_DATE;
-  const claimed = claimedReal ?? 0;
-  const remaining = Math.max(4, TOTAL_SPOTS - claimed);
-  const pct = Math.min(100, (claimed / TOTAL_SPOTS) * 100);
+  const count = members ?? BASELINE;
+  const pct = Math.min(100, (count / TOTAL_SPOTS) * 100);
   const { d, h, m, s } = formatDelta(LAUNCH_DATE - t);
 
   return (
-    <section aria-label="Waitlist availability" className="border-y border-border bg-ink text-cream">
+    <section aria-label="Waitlist" className="border-y border-border bg-ink text-cream">
       <div className="mx-auto grid max-w-6xl gap-6 px-5 py-7 sm:py-8 lg:grid-cols-[1.4fr_1fr] lg:gap-10 lg:px-8">
         <div>
           <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
@@ -59,7 +60,7 @@ export function UrgencyTicker() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-clay opacity-70" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-clay" />
             </span>
-            Live · founding spots
+            Live · the waitlist
           </div>
           <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span
@@ -67,11 +68,9 @@ export function UrgencyTicker() {
               className="font-display text-3xl font-semibold tabular-nums text-cream sm:text-4xl"
               aria-live="polite"
             >
-              {remaining.toLocaleString("en-US")}
+              {count.toLocaleString("en-US")}
             </span>
-            <span className="text-sm text-cream/70">
-              of {TOTAL_SPOTS.toLocaleString("en-US")} free-for-life spots left
-            </span>
+            <span className="text-sm text-cream/70">members already on the waitlist</span>
           </div>
           <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-cream/15">
             <div
@@ -79,11 +78,7 @@ export function UrgencyTicker() {
               style={{ width: `${Math.max(2, pct)}%` }}
             />
           </div>
-          <p suppressHydrationWarning className="mt-2 text-xs text-cream/60">
-            {claimedReal === null
-              ? "Counting founding members…"
-              : `${claimed.toLocaleString("en-US")} founding member${claimed === 1 ? "" : "s"} already in`}
-          </p>
+          <p className="mt-2 text-xs text-cream/60">1,000 free-for-life spots at launch</p>
         </div>
 
         <div className="lg:border-l lg:border-cream/15 lg:pl-10">
@@ -119,8 +114,8 @@ export function UrgencyTicker() {
 }
 
 export function ScarcityBanner() {
-  const claimedReal = useClaimed();
-  const remaining = claimedReal === null ? TOTAL_SPOTS : Math.max(4, TOTAL_SPOTS - claimedReal);
+  const members = useMembers();
+  const count = members ?? BASELINE;
   return (
     <div className="bg-clay/95 text-accent-foreground">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-5 py-2 text-center text-[13px] font-medium lg:px-8">
@@ -129,10 +124,10 @@ export function ScarcityBanner() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-foreground opacity-60" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-foreground" />
           </span>
-          Only <strong suppressHydrationWarning className="tabular-nums">{remaining.toLocaleString("en-US")}</strong> of 1,000 founding spots left —
+          <strong suppressHydrationWarning className="tabular-nums">{count.toLocaleString("en-US")}</strong> members already on the waitlist —
         </span>
         <Link to="/" hash="check" className="underline underline-offset-2 hover:opacity-80">
-          claim yours before they're gone
+          claim your free-for-life spot
         </Link>
       </div>
     </div>

@@ -36,7 +36,7 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
             </span>
-            Only 1,000 founding-member spots — going fast
+            Only 1,000 waitlist spots — going fast
           </div>
           <h1 className="mt-5 font-display text-[2.5rem] font-semibold leading-[1.05] tracking-tight text-balance text-ink sm:text-6xl lg:text-[4.25rem]">
             If you're struggling with <StruggleTicker /> read this before you open another tab.
@@ -387,7 +387,7 @@ export function FoundingPerks() {
   const perks = [
     { title: "Behind-the-scenes", body: "Monthly notes from the team — what we're building, what we're getting wrong, what's coming next." },
     { title: "Early access", body: "New features land in your hands before anyone else's. Your feedback shapes what we ship." },
-    { title: "Free merch drops", body: "Every month, a few founding members get a piece of Bruno merch in the mail. On the house." },
+    { title: "Free merch drops", body: "Every month, a few waitlist members get a piece of Bruno merch in the mail. On the house." },
   ];
   return (
     <section className="py-20 sm:py-28">
@@ -471,7 +471,7 @@ export function MerchShowcase() {
           Quiet, considered objects to carry the work into the rest of your day.
         </h2>
         <p className="mt-5 max-w-2xl text-pretty text-lg text-muted-foreground">
-          Every month we send a few founding members a piece of Bruno merch — designed to look like something you'd actually wear or use, not therapy-app swag.
+          Every month we send a few waitlist members a piece of Bruno merch — designed to look like something you'd actually wear or use, not therapy-app swag.
         </p>
         <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {items.map((item) => (
@@ -696,7 +696,7 @@ export function FAQ() {
     },
     {
       q: "What happens after the free 6 months?",
-      a: "Founding members lock in $2.99/month forever — about a fifth the price of one therapy session, per year. The regular launch price will be $5.99/month. You can cancel any time.",
+      a: "Waitlist members lock in $2.99/month forever — about a fifth the price of one therapy session, per year. The regular launch price will be $5.99/month. You can cancel any time.",
     },
     {
       q: "Will it work for me if I'm not in crisis — just kind of stuck?",
@@ -736,7 +736,7 @@ export const FAQ_DATA = [
   { q: "Is Bruno actual therapy?", a: "No. Bruno is a self-help coach trained in CBT techniques — it's a powerful complement to therapy but not a replacement for a licensed clinician." },
   { q: "Is my data private?", a: "Yes. Conversations are encrypted, never sold, and never used to train third-party AI models." },
   { q: "When does it launch and where?", a: "September 15–20, 2026, on iOS, Android, and the web." },
-  { q: "What happens after the free 6 months?", a: "Founding members lock in $2.99/month forever, instead of the regular $5.99." },
+  { q: "What happens after the free 6 months?", a: "Waitlist members lock in $2.99/month forever, instead of the regular $5.99." },
 ];
 
 export { MentalHealthCheck };
