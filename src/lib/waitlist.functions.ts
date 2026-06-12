@@ -38,3 +38,17 @@ export const joinWaitlist = createServerFn({ method: "POST" })
 
     return { ok: true, alreadyOnList: false as const };
   });
+
+// Real number of people on the waitlist — powers the live "founding spots" UI.
+export const getWaitlistCount = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ count: number }> => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { count, error } = await supabaseAdmin
+      .from("waitlist_signups")
+      .select("*", { count: "exact", head: true });
+    if (error) {
+      console.error("[waitlist] count failed", error);
+      return { count: 0 };
+    }
+    return { count: count ?? 0 };
+  });

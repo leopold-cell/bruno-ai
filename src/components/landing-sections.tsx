@@ -315,11 +315,6 @@ export function HowItHelps() {
       body: "If you miss a day, Bruno doesn't shame you. Shame is what got you here. We're playing the long game.",
       icon: HeartIcon,
     },
-    {
-      title: "Private by design",
-      body: "Your conversations are encrypted. You can delete everything with one tap. Your thoughts stay yours.",
-      icon: LockIcon,
-    },
   ];
   return (
     <section id="how-it-helps" className="scroll-mt-24 py-20 sm:py-28">
@@ -411,6 +406,53 @@ export function FoundingPerks() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function PrivacyTrust() {
+  const points = [
+    { t: "Encrypted, end to end", d: "Your conversations are encrypted in transit and at rest. Not even we can read them." },
+    { t: "Never used to train AI", d: "What you tell Bruno is yours. We never use your chats to train models — ours or anyone else's." },
+    { t: "No human reads your messages", d: "There's no team browsing your chats. It stays between you and Bruno." },
+    { t: "Delete everything, anytime", d: "Export or permanently erase your entire history with one tap. No retention, no questions." },
+  ];
+  return (
+    <section className="bg-mist py-20 sm:py-28">
+      <div className="mx-auto max-w-5xl px-5 lg:px-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage-deep">Private by design</p>
+        <h2 className="mt-3 max-w-3xl font-display text-3xl font-semibold text-balance sm:text-5xl">
+          Your mind stays yours.
+        </h2>
+        <p className="mt-5 max-w-2xl text-pretty text-lg text-muted-foreground">
+          You can only be honest with something you trust. Bruno is built so the hardest things you type at 2:47am never leave your control.
+        </p>
+        <div className="mt-12 grid gap-5 sm:grid-cols-2">
+          {points.map((p) => (
+            <div key={p.t} className="flex gap-4 rounded-3xl border border-border bg-card p-6">
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sage/15 text-sage-deep">
+                <CheckShield />
+              </span>
+              <div>
+                <h3 className="font-display text-lg font-semibold text-ink">{p.t}</h3>
+                <p className="mt-1.5 text-[15px] leading-relaxed text-muted-foreground">{p.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 text-sm text-muted-foreground">
+          Bruno is a coach, not a therapist — and never a replacement for professional care or a crisis line.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function CheckShield() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
   );
 }
 

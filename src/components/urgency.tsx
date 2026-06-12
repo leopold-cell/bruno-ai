@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getWaitlistCount } from "@/lib/waitlist.functions";
 
 const LAUNCH_DATE = new Date("2026-09-15T09:00:00Z").getTime();
-const WAITLIST_START = new Date("2026-05-20T00:00:00Z").getTime();
 const TOTAL_SPOTS = 1000;
-const STARTING_CLAIMED = 412;
-const PER_DAY = 9.4;
 
-function computeClaimed(now: number) {
-  const days = Math.max(0, (now - WAITLIST_START) / 86_400_000);
-  const minuteDrift = Math.floor((now / 60_000) % 7) * 0.15;
-  const claimed = Math.floor(STARTING_CLAIMED + days * PER_DAY + minuteDrift);
-  return Math.min(TOTAL_SPOTS - 4, claimed);
+// Live, real count of people on the waitlist (from Supabase). null while loading.
+function useClaimed(): number | null {
+  const fetchCount = useServerFn(getWaitlistCount);
+  const { data } = useQuery({
+    queryKey: ["waitlist-count"],
+    queryFn: () => fetchCount(),
+    staleTime: 60_000,
+    refetchInterval: 60_000,
+  });
+  return data?.count ?? null;
 }
 
 function useNow(intervalMs = 1000) {
@@ -37,11 +42,12 @@ function formatDelta(ms: number) {
 
 export function UrgencyTicker() {
   const now = useNow(1000);
+  const claimedReal = useClaimed();
   const ready = now !== null;
-  const t = now ?? WAITLIST_START;
-  const claimed = ready ? computeClaimed(t) : STARTING_CLAIMED;
-  const remaining = TOTAL_SPOTS - claimed;
-  const pct = (claimed / TOTAL_SPOTS) * 100;
+  const t = now ?? LAUNCH_DATE;
+  const claimed = claimedReal ?? 0;
+  const remaining = Math.max(4, TOTAL_SPOTS - claimed);
+  const pct = Math.min(100, (claimed / TOTAL_SPOTS) * 100);
   const { d, h, m, s } = formatDelta(LAUNCH_DATE - t);
 
   return (
@@ -70,11 +76,13 @@ export function UrgencyTicker() {
           <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-cream/15">
             <div
               className="h-full rounded-full bg-clay transition-[width] duration-700 ease-out"
-              style={{ width: `${pct}%` }}
+              style={{ width: `${Math.max(2, pct)}%` }}
             />
           </div>
           <p suppressHydrationWarning className="mt-2 text-xs text-cream/60">
-            {claimed.toLocaleString("en-US")} people already in · roughly {Math.round(PER_DAY)} new joiners every day
+            {claimedReal === null
+              ? "Counting founding members…"
+              : `${claimed.toLocaleString("en-US")} founding member${claimed === 1 ? "" : "s"} already in`}
           </p>
         </div>
 
@@ -111,9 +119,8 @@ export function UrgencyTicker() {
 }
 
 export function ScarcityBanner() {
-  const now = useNow(5000);
-  const claimed = now !== null ? computeClaimed(now) : STARTING_CLAIMED;
-  const remaining = TOTAL_SPOTS - claimed;
+  const claimedReal = useClaimed();
+  const remaining = claimedReal === null ? TOTAL_SPOTS : Math.max(4, TOTAL_SPOTS - claimedReal);
   return (
     <div className="bg-clay/95 text-accent-foreground">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-5 py-2 text-center text-[13px] font-medium lg:px-8">

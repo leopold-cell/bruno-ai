@@ -8,6 +8,7 @@ import {
   WhyExplainer,
   HowToReduceAnxiety,
   HowItHelps,
+  PrivacyTrust,
   WaitlistOffer,
   FoundingPerks,
   MerchShowcase,
@@ -67,6 +68,7 @@ function Home() {
         <WhyExplainer />
         <HowToReduceAnxiety />
         <HowItHelps />
+        <PrivacyTrust />
         <section className="bg-cream py-20 sm:py-28">
           <div className="mx-auto max-w-5xl px-5 lg:px-8">
             <div className="mb-12 max-w-3xl">
