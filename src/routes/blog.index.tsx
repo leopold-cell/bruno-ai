@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { listPublishedPosts } from "@/lib/blog.functions";
 import type { BlogPost } from "@/lib/blog.types";
+import { abs } from "@/lib/site";
 
 const CATEGORY_ORDER = ["Anxiety", "Sleep", "Depression", "CBT", "Self-check"];
 const topicAnchor = (c: string) => "topic-" + c.toLowerCase().replace(/[^a-z0-9]+/g, "-");
@@ -19,9 +20,9 @@ export const Route = createFileRoute("/blog/")({
       },
       { property: "og:title", content: "The Bruno Journal" },
       { property: "og:description", content: "CBT, anxiety, depression — written for the way your mind actually works." },
-      { property: "og:url", content: "/blog" },
+      { property: "og:url", content: abs("/blog") },
     ],
-    links: [{ rel: "canonical", href: "/blog" }],
+    links: [{ rel: "canonical", href: abs("/blog") }],
   }),
   component: BlogIndex,
 });

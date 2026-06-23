@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { getPostBySlug, listPublishedPosts } from "@/lib/blog.functions";
 import type { BlogPost as BlogPostType } from "@/lib/blog.types";
+import { abs } from "@/lib/site";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
@@ -27,12 +28,12 @@ export const Route = createFileRoute("/blog/$slug")({
         { name: "description", content: post.description },
         { property: "og:title", content: post.title },
         { property: "og:description", content: post.description },
-        { property: "og:url", content: `/blog/${params.slug}` },
+        { property: "og:url", content: abs(`/blog/${params.slug}`) },
         { property: "og:type", content: "article" },
         { property: "article:published_time", content: post.publishedAt },
         { property: "article:section", content: post.category },
       ],
-      links: [{ rel: "canonical", href: `/blog/${params.slug}` }],
+      links: [{ rel: "canonical", href: abs(`/blog/${params.slug}`) }],
       scripts: [
         {
           type: "application/ld+json",

@@ -109,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: "Bruno",
           description:
             "A pocket CBT coach helping people reduce anxiety, stop overthinking, and break low-mood cycles.",
-          url: "/",
+          url: "https://brunomind.com/",
         }),
       },
     ],

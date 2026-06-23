@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { abs } from "@/lib/site";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -9,9 +10,9 @@ export const Route = createFileRoute("/privacy")({
       { name: "description", content: "How Bruno handles your data. Plain English. Short." },
       { property: "og:title", content: "Privacy — Bruno" },
       { property: "og:description", content: "How Bruno handles your data." },
-      { property: "og:url", content: "/privacy" },
+      { property: "og:url", content: abs("/privacy") },
     ],
-    links: [{ rel: "canonical", href: "/privacy" }],
+    links: [{ rel: "canonical", href: abs("/privacy") }],
   }),
   component: PrivacyPage,
 });

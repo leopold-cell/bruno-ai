@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, BrunoMark } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { abs } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -13,9 +14,9 @@ export const Route = createFileRoute("/about")({
       },
       { property: "og:title", content: "About Bruno" },
       { property: "og:description", content: "Why we're building a pocket CBT coach for the moments therapy can't reach." },
-      { property: "og:url", content: "/about" },
+      { property: "og:url", content: abs("/about") },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: abs("/about") }],
   }),
   component: AboutPage,
 });

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { SITE_URL } from "@/lib/site";
 import { UrgencyTicker, ScarcityBanner } from "@/components/urgency";
 import {
   Hero,
@@ -33,11 +34,11 @@ export const Route = createFileRoute("/")({
         content:
           "Free 2-minute mental health check + 6 months free at launch. Built on Cognitive Behavioral Therapy. Private by design.",
       },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
     scripts: [
       {
         type: "application/ld+json",

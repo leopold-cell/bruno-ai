@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { abs } from "@/lib/site";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
@@ -9,9 +10,9 @@ export const Route = createFileRoute("/terms")({
       { name: "description", content: "Terms of use for Bruno." },
       { property: "og:title", content: "Terms — Bruno" },
       { property: "og:description", content: "Terms of use for Bruno." },
-      { property: "og:url", content: "/terms" },
+      { property: "og:url", content: abs("/terms") },
     ],
-    links: [{ rel: "canonical", href: "/terms" }],
+    links: [{ rel: "canonical", href: abs("/terms") }],
   }),
   component: TermsPage,
 });
