@@ -21,10 +21,13 @@ export type Database = {
           created_at: string
           description: string
           excerpt: string
+          faq: Json
           id: string
           keyword: string | null
           published_at: string | null
           reading_minutes: number
+          related_slugs: Json
+          seo_title: string | null
           slug: string
           source: string | null
           status: string
@@ -38,10 +41,13 @@ export type Database = {
           created_at?: string
           description: string
           excerpt: string
+          faq?: Json
           id?: string
           keyword?: string | null
           published_at?: string | null
           reading_minutes?: number
+          related_slugs?: Json
+          seo_title?: string | null
           slug: string
           source?: string | null
           status?: string
@@ -55,10 +61,13 @@ export type Database = {
           created_at?: string
           description?: string
           excerpt?: string
+          faq?: Json
           id?: string
           keyword?: string | null
           published_at?: string | null
           reading_minutes?: number
+          related_slugs?: Json
+          seo_title?: string | null
           slug?: string
           source?: string | null
           status?: string

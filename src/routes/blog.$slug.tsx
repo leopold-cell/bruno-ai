@@ -12,7 +12,14 @@ export const Route = createFileRoute("/blog/$slug")({
       listPublishedPosts(),
     ]);
     if (!post) throw notFound();
-    const related = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
+    // Prefer the brief's chosen siblings; fall back to recent posts.
+    const bySlug = new Map(posts.map((p) => [p.slug, p]));
+    const chosen = (post.relatedSlugs ?? [])
+      .map((s) => bySlug.get(s))
+      .filter((p): p is NonNullable<typeof p> => !!p && p.slug !== post.slug);
+    const related = (
+      chosen.length ? chosen : posts.filter((p) => p.slug !== post.slug)
+    ).slice(0, 3);
     return { post, related };
   },
   head: ({ loaderData, params }) => {
@@ -22,33 +29,50 @@ export const Route = createFileRoute("/blog/$slug")({
         meta: [{ title: "Article not found — Bruno" }],
       };
     }
+    const url = abs(`/blog/${params.slug}`);
+    const scripts = [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: post.title,
+          description: post.description,
+          datePublished: post.publishedAt,
+          author: { "@type": "Organization", name: "Bruno" },
+          publisher: { "@type": "Organization", name: "Bruno" },
+          articleSection: post.category,
+          mainEntityOfPage: url,
+        }),
+      },
+    ];
+    if ((post.faq?.length ?? 0) > 0) {
+      scripts.push({
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: (post.faq ?? []).map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      });
+    }
     return {
       meta: [
-        { title: `${post.title} — Bruno` },
+        { title: `${post.seoTitle || post.title} | Bruno` },
         { name: "description", content: post.description },
         { property: "og:title", content: post.title },
         { property: "og:description", content: post.description },
-        { property: "og:url", content: abs(`/blog/${params.slug}`) },
+        { property: "og:url", content: url },
         { property: "og:type", content: "article" },
         { property: "article:published_time", content: post.publishedAt },
         { property: "article:section", content: post.category },
       ],
-      links: [{ rel: "canonical", href: abs(`/blog/${params.slug}`) }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description: post.description,
-            datePublished: post.publishedAt,
-            author: { "@type": "Organization", name: "Bruno" },
-            publisher: { "@type": "Organization", name: "Bruno" },
-            articleSection: post.category,
-          }),
-        },
-      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts,
     };
   },
   notFoundComponent: PostNotFound,
@@ -110,6 +134,20 @@ function BlogPost() {
               return null;
             })}
           </div>
+
+          {(post.faq?.length ?? 0) > 0 && (
+            <section className="mt-14">
+              <h2 className="font-display text-3xl font-semibold text-ink">Frequently asked questions</h2>
+              <div className="mt-6 divide-y divide-border overflow-hidden rounded-2xl border border-border">
+                {(post.faq ?? []).map((f, i) => (
+                  <div key={i} className="p-5">
+                    <h3 className="font-display text-lg font-semibold text-ink">{f.q}</h3>
+                    <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{f.a}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <div className="mt-16 rounded-3xl border border-border bg-cream p-8 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage-deep">Try it for yourself</p>

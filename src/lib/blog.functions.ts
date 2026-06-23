@@ -3,7 +3,7 @@ import { z } from "zod";
 import { mapRowToPost, type BlogPost, type BlogPostRow } from "./blog.types";
 
 const POST_COLUMNS =
-  "slug, title, excerpt, description, category, reading_minutes, tldr, body, published_at, created_at";
+  "slug, title, seo_title, excerpt, description, category, reading_minutes, tldr, body, faq, related_slugs, published_at, created_at";
 
 // List all published posts, newest first. Used by /blog and /sitemap.xml.
 export const listPublishedPosts = createServerFn({ method: "GET" }).handler(
